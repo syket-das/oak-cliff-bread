@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oak Cliff Bread — Artisan Sourdough & Pastry | Dallas, TX</title>
+  <meta name="description" content="Family-run artisan bakery in Oak Cliff, Dallas. Slow-fermented sourdough, pastries, and bread made with Texas heritage wheat from Barton Springs Mill.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,200;0,400;0,500;0,700;1,200;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-display: 'DM Serif Display', serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-accent: 'Cormorant Garamond', serif;
+
+      --bg-dark: #1a1612;
+      --bg-warm: #f5efe6;
+      --bg-cream: #faf6ef;
+      --bg-card: #ede5d8;
+
+      --accent-wheat: #c8a35f;
+      --accent-rust: #b5654a;
+      --accent-olive: #6b7c4e;
+      --accent-charcoal: #2c2520;
+
+      --text-dark: #1a1612;
+      --text-light: #f5efe6;
+      --text-muted: #8a7e72;
+      --text-warm: #5c4f42;
+
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      font-weight: 400;
+      background: var(--bg-cream);
+      color: var(--text-dark);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ========== NOISE TEXTURE ========== */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ========== ANIMATIONS ========== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ========== TOP BAR ========== */
+    .top-bar {
+      background: var(--bg-dark);
+      color: var(--text-light);
+      padding: 10px 0;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    .top-bar-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .top-bar a {
+      color: var(--accent-wheat);
+      text-decoration: none;
+    }
+
+    /* ========== NAVIGATION ========== */
+    nav {
+      background: var(--bg-cream);
+      padding: 1.5rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(200,163,95,0.2);
+      backdrop-filter: blur(20px);
+    }
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      color: var(--text-dark);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+    .nav-logo span {
+      color: var(--accent-wheat);
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-warm);
+      text-decoration: none;
+      transition: color 0.3s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 1.5px;
+      background: var(--accent-wheat);
+      transition: width 0.3s var(--ease);
+    }
+    .nav-links a:hover { color: var(--accent-wheat); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--text-dark);
+      transition: 0.3s;
+    }
+
+    /* ========== HERO ========== */
+    .hero {
+      position: relative;
+      min-height: 90vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      background: var(--bg-dark);
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: url('https://images.unsplash.com/photo-1509440159596-0249088772ff?w=1200&auto=format') center/cover no-repeat;
+      opacity: 0.5;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(26,22,18,0.85) 0%, rgba(26,22,18,0.4) 50%, rgba(26,22,18,0.7) 100%);
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 6rem 2rem;
+    }
+    .hero-badge {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--accent-wheat);
+      border: 1px solid var(--accent-wheat);
+      padding: 0.5rem 1.2rem;
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeInUp 0.8s var(--ease) 0.2s forwards;
+    }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      color: var(--text-light);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+      max-width: 700px;
+      opacity: 0;
+      animation: fadeInUp 0.8s var(--ease) 0.4s forwards;
+    }
+    .hero h1 em {
+      font-family: var(--font-accent);
+      font-style: italic;
+      font-weight: 300;
+      color: var(--accent-wheat);
+    }
+    .hero-sub {
+      font-family: var(--font-accent);
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      font-weight: 300;
+      color: rgba(245,239,230,0.8);
+      max-width: 520px;
+      line-height: 1.6;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeInUp 0.8s var(--ease) 0.6s forwards;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeInUp 0.8s var(--ease) 0.8s forwards;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ========== BUTTONS ========== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 1rem 2rem;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s var(--ease);
+    }
+    .btn-primary {
+      background: var(--accent-wheat);
+      color: var(--bg-dark);
+    }
+    .btn-primary:hover {
+      background: #d4af6a;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(200,163,95,0.3);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--text-light);
+      border: 1px solid rgba(245,239,230,0.3);
+    }
+    .btn-outline:hover {
+      border-color: var(--accent-wheat);
+      color: var(--accent-wheat);
+    }
+
+    /* ========== STATS BAR ========== */
+    .stats-bar {
+      background: var(--bg-dark);
+      padding: 3rem 0;
+      border-top: 1px solid rgba(200,163,95,0.15);
+    }
+    .stats-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      text-align: center;
+    }
+    .stat-item {
+      padding: 1rem;
+    }
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: var(--accent-wheat);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    .stat-label {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: rgba(245,239,230,0.5);
+    }
+
+    /* ========== SECTIONS ========== */
+    section {
+      padding: 6rem 0;
+    }
+    .section-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    .section-label {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--accent-wheat);
+      margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      color: var(--text-dark);
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+    }
+    .section-title em {
+      font-family: var(--font-accent);
+      font-style: italic;
+      font-weight: 300;
+    }
+
+    /* ========== ABOUT ========== */
+    .about {
+      background: var(--bg-warm);
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .about-image {
+      position: relative;
+      overflow: hidden;
+    }
+    .about-image img {
+      width: 100%;
+      height: 500px;
+      object-fit: cover;
+      display: block;
+    }
+    .about-image::after {
+      content: '';
+      position: absolute;
+      top: 1.5rem;
+      left: 1.5rem;
+      right: -1.5rem;
+      bottom: -1.5rem;
+      border: 2px solid var(--accent-wheat);
+      z-index: -1;
+    }
+    .about-text p {
+      font-family: var(--font-accent);
+      font-size: 1.15rem;
+      font-weight: 300;
+      line-height: 1.8;
+      color: var(--text-warm);
+      margin-bottom: 1.5rem;
+    }
+    .about-text p strong {
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+    .about-highlight {
+      display: flex;
+      gap: 2rem;
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(200,163,95,0.3);
+    }
+    .about-highlight-item {
+      flex: 1;
+    }
+    .about-highlight-item h4 {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      margin-bottom: 0.3rem;
+      color: var(--accent-rust);
+    }
+    .about-highlight-item p {
+      font-size: 0.95rem !important;
+      margin-bottom: 0 !important;
+    }
+
+    /* ========== MENU ========== */
+    .menu {
+      background: var(--bg-cream);
+    }
+    .menu-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+    }
+    .menu-tab {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 0.75rem 1.5rem;
+      border: 1px solid var(--accent-charcoal);
+      background: transparent;
+      color: var(--text-dark);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .menu-tab.active,
+    .menu-tab:hover {
+      background: var(--accent-charcoal);
+      color: var(--text-light);
+    }
+    .menu-category {
+      display: none;
+    }
+    .menu-category.active {
+      display: block;
+    }
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+    .menu-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 1.5rem;
+      background: var(--bg-warm);
+      border-left: 3px solid var(--accent-wheat);
+      transition: transform 0.3s var(--ease);
+    }
+    .menu-item:hover {
+      transform: translateX(4px);
+    }
+    .menu-item-info h4 {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      margin-bottom: 0.3rem;
+    }
+    .menu-item-info p {
+      font-family: var(--font-accent);
+      font-size: 0.95rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--text-muted);
+    }
+    .menu-item-price {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      color: var(--accent-rust);
+      white-space: nowrap;
+      margin-left: 1rem;
+    }
+    .menu-note {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background: var(--bg-card);
+      font-family: var(--font-accent);
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--text-muted);
+      border-left: 3px solid var(--accent-olive);
+    }
+
+    /* ========== GALLERY ========== */
+    .gallery {
+      background: var(--bg-dark);
+      padding: 6rem 0;
+    }
+    .gallery .section-title { color: var(--text-light); }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(2, 250px);
+      gap: 0.75rem;
+    }
+    .gallery-item {
+      overflow: hidden;
+      position: relative;
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s var(--ease);
+    }
+    .gallery-item:hover img {
+      transform: scale(1.08);
+    }
+    .gallery-item.featured {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+    .gallery-item-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1.5rem;
+      background: linear-gradient(to top, rgba(26,22,18,0.8), transparent);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .gallery-item:hover .gallery-item-overlay {
+      opacity: 1;
+    }
+    .gallery-item-overlay span {
+      font-family: var(--font-accent);
+      font-size: 1rem;
+      color: var(--text-light);
+      font-style: italic;
+    }
+
+    /* ========== PRESS ========== */
+    .press {
+      background: var(--bg-warm);
+    }
+    .press-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .press-item {
+      text-align: center;
+      padding: 2rem 1rem;
+      background: var(--bg-cream);
+      transition: transform 0.3s var(--ease);
+    }
+    .press-item:hover {
+      transform: translateY(-4px);
+    }
+    .press-item h4 {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+    .press-item p {
+      font-family: var(--font-accent);
+      font-size: 0.9rem;
+      font-style: italic;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* ========== REVIEWS ========== */
+    .reviews {
+      background: var(--bg-cream);
+    }
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+    .review-card {
+      padding: 2.5rem;
+      background: var(--bg-warm);
+      position: relative;
+    }
+    .review-card::before {
+      content: '\201C';
+      font-family: var(--font-display);
+      font-size: 4rem;
+      color: var(--accent-wheat);
+      opacity: 0.4;
+      position: absolute;
+      top: 0.5rem;
+      left: 1.5rem;
+      line-height: 1;
+    }
+    .review-stars {
+      color: var(--accent-wheat);
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      letter-spacing: 2px;
+    }
+    .review-text {
+      font-family: var(--font-accent);
+      font-size: 1.05rem;
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--text-warm);
+      margin-bottom: 1.5rem;
+      font-style: italic;
+    }
+    .review-author {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+    }
+    .review-source {
+      font-weight: 400;
+      color: var(--accent-olive);
+    }
+
+    /* ========== HOURS & LOCATION ========== */
+    .location {
+      background: var(--bg-dark);
+      color: var(--text-light);
+    }
+    .location .section-title { color: var(--text-light); }
+    .location-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+    }
+    .hours-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.5rem;
+    }
+    .hours-table tr {
+      border-bottom: 1px solid rgba(245,239,230,0.1);
+    }
+    .hours-table td {
+      padding: 1rem 0;
+      font-family: var(--font-accent);
+      font-size: 1.05rem;
+      font-weight: 300;
+    }
+    .hours-table td:last-child {
+      text-align: right;
+      color: rgba(245,239,230,0.6);
+    }
+    .hours-table tr.open td:last-child {
+      color: var(--accent-wheat);
+      font-weight: 600;
+    }
+    .location-info {
+      padding-top: 1.5rem;
+    }
+    .location-detail {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      align-items: flex-start;
+    }
+    .location-detail .icon {
+      width: 20px;
+      flex-shrink: 0;
+      text-align: center;
+      color: var(--accent-wheat);
+      font-size: 1rem;
+      margin-top: 2px;
+    }
+    .location-detail p {
+      font-family: var(--font-accent);
+      font-size: 1.05rem;
+      font-weight: 300;
+      line-height: 1.6;
+      color: rgba(245,239,230,0.8);
+    }
+    .location-detail a {
+      color: var(--accent-wheat);
+      text-decoration: none;
+    }
+    .location-detail a:hover { text-decoration: underline; }
+
+    /* ========== CTA ========== */
+    .cta-section {
+      background: linear-gradient(135deg, var(--accent-charcoal) 0%, var(--bg-dark) 100%);
+      padding: 6rem 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 30% 50%, rgba(200,163,95,0.15) 0%, transparent 60%);
+    }
+    .cta-section .section-inner {
+      position: relative;
+      z-index: 2;
+    }
+    .cta-section .section-title {
+      color: var(--text-light);
+      margin-bottom: 1rem;
+    }
+    .cta-sub {
+      font-family: var(--font-accent);
+      font-size: 1.2rem;
+      font-weight: 300;
+      color: rgba(245,239,230,0.7);
+      margin-bottom: 2.5rem;
+      max-width: 550px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ========== FOOTER ========== */
+    footer {
+      background: var(--bg-dark);
+      border-top: 1px solid rgba(200,163,95,0.15);
+      padding: 3rem 0 2rem;
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+    .footer-brand {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      color: var(--text-light);
+    }
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+    }
+    .footer-links a {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(245,239,230,0.5);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .footer-links a:hover { color: var(--accent-wheat); }
+    .footer-copy {
+      width: 100%;
+      text-align: center;
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(245,239,230,0.08);
+      font-size: 0.75rem;
+      color: rgba(245,239,230,0.3);
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--bg-cream);
+        padding: 2rem;
+        border-bottom: 1px solid rgba(200,163,95,0.2);
+      }
+      .nav-toggle { display: flex; }
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .about-image::after { display: none; }
+      .about-image img { height: 350px; }
+      .menu-grid { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(3, 200px); }
+      .gallery-item.featured { grid-column: span 2; grid-row: span 1; }
+      .stats-inner { grid-template-columns: repeat(2, 1fr); }
+      .reviews-grid { grid-template-columns: 1fr; }
+      .location-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .press-grid { grid-template-columns: repeat(2, 1fr); }
+      .hero h1 { font-size: clamp(2.2rem, 6vw, 4rem); }
+    }
+
+    @media (max-width: 600px) {
+      .top-bar-inner { justify-content: center; text-align: center; }
+      .stats-inner { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+      .gallery-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+      .gallery-item.featured { grid-column: span 1; }
+      .press-grid { grid-template-columns: 1fr; }
+      .about-highlight { flex-direction: column; gap: 1.5rem; }
+      .hero { min-height: 80vh; }
+      section { padding: 4rem 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .hero-badge, .hero h1, .hero-sub, .hero-actions { opacity: 1; animation: none; }
+      .gallery-item img { transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="top-bar-inner">
+      <span>1300 S Polk St, Suite 230 · Tyler Station · Dallas, TX 75224</span>
+      <span>Thu — Sat · 8am – 3pm &nbsp;|&nbsp; <a href="tel:6824395319">(682) 439-5319</a></span>
+    </div>
+  </div>
+
+  <!-- NAVIGATION -->
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">Oak Cliff <span>Bread</span></a>
+      <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links">
+        <li><a href="#about">Our Story</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#press">Press</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+        <li><a href="#location">Visit</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-badge">Artisan Sourdough & Pastry</div>
+      <h1>Bread Worth <em>Waking Up</em> For</h1>
+      <p class="hero-sub">Slow-fermented sourdough and handcrafted pastries made with Texas heritage wheat — milled just three hours south of our Oak Cliff bakery.</p>
+      <div class="hero-actions">
+        <a href="#menu" class="btn btn-primary">View This Week's Menu</a>
+        <a href="#location" class="btn btn-outline">Find Us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS BAR -->
+  <div class="stats-bar">
+    <div class="stats-inner">
+      <div class="stat-item reveal">
+        <div class="stat-number">4.9</div>
+        <div class="stat-label">Google Rating</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-1">
+        <div class="stat-number">11.2K</div>
+        <div class="stat-label">Instagram Followers</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-2">
+        <div class="stat-number">5+</div>
+        <div class="stat-label">Years Baking</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-3">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Facebook Recommended</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="section-inner">
+      <div class="about-grid">
+        <div class="about-image reveal">
+          <img src="https://images.unsplash.com/photo-1509365390695-33aee754301f?w=800&auto=format" alt="Artisan sourdough bread with open crumb">
+        </div>
+        <div class="about-text">
+          <span class="section-label reveal">Our Story</span>
+          <h2 class="section-title reveal reveal-delay-1">A Family Bakery <em>Rooted in Texas Grain</em></h2>
+          <p class="reveal reveal-delay-2">We're <strong>Tyler and Chayanne Rooney</strong>, and Oak Cliff Bread is our family bakery. We started baking for our neighbors in 2020, dropping off loaves on porches across Oak Cliff. What began as a pandemic passion project grew into a community staple — first at the Dallas Farmers Market, and now at our permanent home inside <strong>Tyler Station</strong>.</p>
+          <p class="reveal reveal-delay-3">When we started, we made certain commitments: to use slow fermentation and local grain. We partner with <strong>Barton Springs Mill</strong> to source heirloom Texas wheat, grown and milled just three hours south. Long fermentation increases complexity in flavor and digestibility — it's bread the way it was meant to be made.</p>
+          <div class="about-highlight reveal reveal-delay-4">
+            <div class="about-highlight-item">
+              <h4>Local Grain</h4>
+              <p>Texas heritage wheat from Barton Springs Mill</p>
+            </div>
+            <div class="about-highlight-item">
+              <h4>Slow Fermented</h4>
+              <p>Old-world techniques for flavor & digestibility</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENU -->
+  <section class="menu" id="menu">
+    <div class="section-inner">
+      <span class="section-label reveal">What We Bake</span>
+      <h2 class="section-title reveal reveal-delay-1">This Week's <em>Menu</em></h2>
+
+      <div class="menu-tabs reveal reveal-delay-2">
+        <button class="menu-tab active" onclick="showCategory('breads')">Breads</button>
+        <button class="menu-tab" onclick="showCategory('pastries')">Pastries & Viennoiserie</button>
+        <button class="menu-tab" onclick="showCategory('specials')">Weekly Specials</button>
+      </div>
+
+      <div class="menu-category active" id="cat-breads">
+        <div class="menu-grid">
+          <div class="menu-item reveal">
+            <div class="menu-item-info">
+              <h4>Country Sourdough</h4>
+              <p>Heritage wheat, long-fermented, deep golden crust</p>
+            </div>
+          </div>
+          <div class="menu-item reveal reveal-delay-1">
+            <div class="menu-item-info">
+              <h4>Olive Sourdough</h4>
+              <p>Studded with olives, finished with extra-virgin olive oil</p>
+            </div>
+          </div>
+          <div class="menu-item reveal reveal-delay-2">
+            <div class="menu-item-info">
+              <h4>Rosemary Focaccia</h4>
+              <p>Fluffy, olive oil-drenched, fresh rosemary</p>
+            </div>
+          </div>
+          <div class="menu-item reveal reveal-delay-3">
+            <div class="menu-item-info">
+              <h4>Cinnamon Raisin Loaf</h4>
+              <p>Hearty whole grain with sweet cinnamon swirl</p>
+            </div>
+          </div>
+          <div class="menu-item reveal">
+            <div class="menu-item-info">
+              <h4>Whole Grain Loaf</h4>
+              <p>100% whole wheat, nutty and hearty</p>
+            </div>
+          </div>
+          <div class="menu-item reveal reveal-delay-1">
+            <div class="menu-item-info">
+              <h4>Baguette</h4>
+              <p>Hard crust Italian-style, crispy and airy</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-category" id="cat-pastries">
+        <div class="menu-grid">
+          <div class="menu-item">
+            <div class="menu-item-info">
+              <h4>Almond Croissant</h4>
+              <p>Flaky layers, almond cream, toasted almonds</p>
+            </div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-info">
+              <h4>Pain au Chocolat</h4>
+              <p>Classic French, laminated dough, dark chocolate</p>
+            </div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-info">
+              <h4>Morning Buns</h4>
+              <p>Caramelized sugar, citrus zest, cinnamon</p>
+            </div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-info">
+              <h4>Soft Pretzels</h4>
+              <p>Warm, salted, perfectly chewy</p>
+            </div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-info">
+              <h4>Pistachio Pastry</h4>
+              <p>Buttery pastry, pistachio cream filling</p>
+            </div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-info">
+              <h4>Cinnamon Rolls</h4>
+              <p>Brioche-style, cream cheese glaze</p>
+            </div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-info">
+              <h4>Apricot Danish</h4>
+              <p>Laminated dough, fresh apricot, pastry cream</p>
+            </div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-info">
+              <h4>Brioche</h4>
+              <p>Rich, buttery, golden-crusted</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-category" id="cat-specials">
+        <div class="menu-grid">
+          <div class="menu-item">
+            <div class="menu-item-info">
+              <h4>Short Rib Danish</h4>
+              <p>Savory braised short rib on flaky pastry</p>
+            </div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-info">
+              <h4>Peach Brioche</h4>
+              <p>Seasonal fresh peach on buttery brioche</p>
+            </div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-info">
+              <h4>Seeded Sourdough</h4>
+              <p>Topped with a mix of pumpkin, sunflower & sesame</p>
+            </div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-info">
+              <h4>Chocolate Croissant Cube</h4>
+              <p>Laminated layers filled with dark chocolate</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-note reveal">
+        Our menu rotates weekly based on seasonal ingredients and what inspires us. Items are baked fresh each morning and sell out quickly — arrive early for the best selection. Follow us on <strong>@oakcliffbread</strong> for this week's lineup.
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="gallery" id="gallery">
+    <div class="section-inner">
+      <span class="section-label reveal">From Our Oven</span>
+      <h2 class="section-title reveal reveal-delay-1" style="margin-bottom: 2.5rem;">The Craft <em>Behind the Crust</em></h2>
+
+      <div class="gallery-grid">
+        <div class="gallery-item featured reveal">
+          <img src="https://images.unsplash.com/photo-1534620808146-d33bb39128b2?w=800&auto=format" alt="Artisan bread scoring">
+          <div class="gallery-item-overlay"><span>Scored with care</span></div>
+        </div>
+        <div class="gallery-item reveal reveal-delay-1">
+          <img src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=800&auto=format" alt="Sourdough crumb structure">
+          <div class="gallery-item-overlay"><span>Open crumb perfection</span></div>
+        </div>
+        <div class="gallery-item reveal reveal-delay-2">
+          <img src="https://images.unsplash.com/photo-1530610476181-d83430b64dcd?w=800&auto=format" alt="Fresh pastries">
+          <div class="gallery-item-overlay"><span>Fresh from the oven</span></div>
+        </div>
+        <div class="gallery-item reveal reveal-delay-1">
+          <img src="https://images.unsplash.com/photo-1517433670267-08bbd4be890f?w=800&auto=format" alt="Golden croissants">
+          <div class="gallery-item-overlay"><span>Handcrafted croissants</span></div>
+        </div>
+        <div class="gallery-item reveal reveal-delay-2">
+          <img src="https://images.unsplash.com/photo-1603532648955-039310d9ed75?w=800&auto=format" alt="Cinnamon rolls">
+          <div class="gallery-item-overlay"><span>Cinnamon morning buns</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRESS -->
+  <section class="press" id="press">
+    <div class="section-inner">
+      <span class="section-label reveal">As Seen In</span>
+      <h2 class="section-title reveal reveal-delay-1">Featured <em>in the Press</em></h2>
+
+      <div class="press-grid">
+        <div class="press-item reveal">
+          <h4>D Magazine</h4>
+          <p>"We can't stop shopping at Oak Cliff Bread"</p>
+        </div>
+        <div class="press-item reveal reveal-delay-1">
+          <h4>Dallas Observer</h4>
+          <p>"The cottage bakery every block in America needs"</p>
+        </div>
+        <div class="press-item reveal reveal-delay-2">
+          <h4>CultureMap Dallas</h4>
+          <p>"One of 8 rising bakers enriching our sourdough scene"</p>
+        </div>
+        <div class="press-item reveal reveal-delay-3">
+          <h4>Good Morning Texas</h4>
+          <p>Featured live on WFAA</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section class="reviews" id="reviews">
+    <div class="section-inner">
+      <span class="section-label reveal">What People Say</span>
+      <h2 class="section-title reveal reveal-delay-1">Loved by <em>the Community</em></h2>
+
+      <div class="reviews-grid">
+        <div class="review-card reveal">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">Far and away the best sourdough and croissants I've found in Dallas. The crumb is incredible — crispy on the outside, chewy and nutty on the inside.</p>
+          <div class="review-author">— Google Review <span class="review-source">· 4.9/5 from 115 reviews</span></div>
+        </div>
+        <div class="review-card reveal reveal-delay-1">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">The morning buns are phenomenal. Get there early because they sell out fast. The staff are incredibly friendly and even share sourdough starter and baking tips.</p>
+          <div class="review-author">— Yelp Review <span class="review-source">· 29 reviews, 61 photos</span></div>
+        </div>
+        <div class="review-card reveal reveal-delay-2">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">The focaccia is the fluffiest, most flavorful I've had in Dallas. You can taste the difference that local grain and slow fermentation makes. A true neighborhood gem.</p>
+          <div class="review-author">— Google Review <span class="review-source">· Verified Customer</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOURS & LOCATION -->
+  <section class="location" id="location">
+    <div class="section-inner">
+      <div class="location-grid">
+        <div>
+          <span class="section-label reveal">Visit Us</span>
+          <h2 class="section-title reveal reveal-delay-1">Hours & <em>Location</em></h2>
+          <table class="hours-table reveal reveal-delay-2">
+            <tr><td>Monday</td><td>Closed</td></tr>
+            <tr><td>Tuesday</td><td>Closed</td></tr>
+            <tr><td>Wednesday</td><td>Closed</td></tr>
+            <tr class="open"><td>Thursday</td><td>8:00 AM — 3:00 PM</td></tr>
+            <tr class="open"><td>Friday</td><td>8:00 AM — 3:00 PM</td></tr>
+            <tr class="open"><td>Saturday</td><td>8:00 AM — 3:00 PM</td></tr>
+            <tr><td>Sunday</td><td>Closed</td></tr>
+          </table>
+        </div>
+        <div class="location-info reveal reveal-delay-2">
+          <div class="location-detail">
+            <div class="icon">📍</div>
+            <p>1300 S Polk St, Suite 230<br>Tyler Station<br>Dallas, TX 75224</p>
+          </div>
+          <div class="location-detail">
+            <div class="icon">🚇</div>
+            <p>Right next to the Tyler / Vernon DART Red Line stop</p>
+          </div>
+          <div class="location-detail">
+            <div class="icon">📞</div>
+            <p><a href="tel:6824395319">(682) 439-5319</a></p>
+          </div>
+          <div class="location-detail">
+            <div class="icon">✉️</div>
+            <p><a href="mailto:oakcliffbread@gmail.com">oakcliffbread@gmail.com</a></p>
+          </div>
+          <div class="location-detail">
+            <div class="icon">📸</div>
+            <p><a href="https://instagram.com/oakcliffbread" target="_blank">@oakcliffbread</a> on Instagram & Facebook</p>
+          </div>
+          <p style="margin-top: 2rem; font-family: var(--font-accent); font-size: 0.95rem; font-style: italic; color: rgba(245,239,230,0.5);">Pro tip: arrive early — we sell out fast!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="section-inner">
+      <span class="section-label reveal">Come Say Hi</span>
+      <h2 class="section-title reveal reveal-delay-1">Life's Too Short for <em>Bad Bread</em></h2>
+      <p class="cta-sub reveal reveal-delay-2">Stop by Tyler Station this week and taste what real sourdough is supposed to be — slow-fermented, locally milled, and baked with love.</p>
+      <div class="reveal reveal-delay-3">
+        <a href="https://instagram.com/oakcliffbread" target="_blank" class="btn btn-primary">Follow @oakcliffbread</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">Oak Cliff Bread</div>
+      <div class="footer-links">
+        <a href="https://instagram.com/oakcliffbread" target="_blank">Instagram</a>
+        <a href="https://facebook.com/oakcliffbread" target="_blank">Facebook</a>
+        <a href="mailto:oakcliffbread@gmail.com">Email</a>
+        <a href="tel:6824395319">Call</a>
+      </div>
+      <div class="footer-copy">
+        © 2026 Oak Cliff Bread. All rights reserved. · 1300 S Polk St, Suite 230, Dallas, TX 75224
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Intersection Observer for scroll reveals
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Menu tabs
+    function showCategory(cat) {
+      document.querySelectorAll('.menu-category').forEach(c => c.classList.remove('active'));
+      document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
+      document.getElementById('cat-' + cat).classList.add('active');
+      event.target.classList.add('active');
+    }
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          document.querySelector('.nav-links').classList.remove('open');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
